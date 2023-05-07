@@ -111,6 +111,7 @@ class ImageAdapter(var context: Context, var listImages: MutableList<Images>) :
                 // Được gọi để thông báo cho trình nghe sự kiện về việc một mục đã được chọn.
                 try {
                     selectItem(adapterPosition)
+                    // kiểm tra điều kiện danh sách hình ảnh phải có vị trí > -1
                     if (listImages.size > -1){
                         onItemListener.onClick(adapterPosition, listImages[adapterPosition].url)
                         // Nếu hình ảnh chưa được tải xuống và lưu vào thiết bị di động
