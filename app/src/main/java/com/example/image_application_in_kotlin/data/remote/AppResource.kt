@@ -1,5 +1,9 @@
 package com.example.image_application_in_kotlin.data.remote
 
+/**
+ *  Create by TruongIT
+ */
+
 open class AppResource<T> {
     var data: T? = null
     var message: String? = null

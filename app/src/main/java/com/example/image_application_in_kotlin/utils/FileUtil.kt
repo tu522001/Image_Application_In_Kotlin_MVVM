@@ -12,21 +12,35 @@ import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.InputStream
 
-object Util {
+/**
+ *  Create by TruongIT
+ */
+
+object FileUtil {
+    /**
+     *  - Khởi tạo thư mục lưu trữ ảnh của ứng dụng trên thiết bị.
+     *  - (Environment.getExternalStorageDirectory().absolutePath), hằng số
+     *  - Environment.DIRECTORY_PICTURES đại diện cho thư mục ảnh, và tên thư mục chứa ảnh của ứng dụng (/MyPic).
+     * */
     val pictureDirectory =
         File(Environment.getExternalStorageDirectory().absolutePath + "/" + Environment.DIRECTORY_PICTURES + "/MyPic")
 
-    init {
-        if (!pictureDirectory.exists()) {
-            pictureDirectory.mkdirs()
-        }
-    }
-
+    // Kiểm tra xem một tệp tin có tồn tại trong thư mục lưu trữ ảnh của ứng dụng hay không
     fun isFileExisted(fileName: String): Boolean {
 
+        // biến path đại diện cho đường dẫn tuyệt đối đến tệp tin cần kiểm tra trong thư mục pictureDirectory
+        // Phương thức này sẽ tạo ra các thư mục con nếu cần thiết để tạo được đường dẫn đầy đủ đến thư mục mới.
         val path = "${pictureDirectory}/${fileName}"
         Log.d("existed", File(path).exists().toString())
         return File(path).exists()
+    }
+
+    // init{} được sử dụng để tạo thư mục lưu trữ ảnh của ứng dụng trên thiết bị nếu nó chưa tồn tại.
+    init {
+        // Nếu thư mục không tồn tại, thì khởi tạo sử dụng phương thức mkdirs() của đối tượng File để tạo thư mục.
+        if (!pictureDirectory.exists()) {
+            pictureDirectory.mkdirs()
+        }
     }
 
     fun songArt(path: String, context: Context): Bitmap {
@@ -47,6 +61,5 @@ object Util {
             return bitmap
         }
     }
-
 
 }

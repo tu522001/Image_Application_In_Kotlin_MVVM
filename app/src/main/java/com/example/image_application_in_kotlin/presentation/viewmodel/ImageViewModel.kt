@@ -14,6 +14,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ *  Create by TruongIT
+ */
+
 class ImageViewModel : ViewModel(){
     private var photoRepository: PhotoRepository = PhotoRepository()
     private val _photoList = MutableLiveData<List<PhotoFrames>>()

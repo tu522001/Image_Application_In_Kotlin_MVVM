@@ -7,6 +7,10 @@ import com.example.image_application_in_kotlin.data.remote.ApiService
 import com.example.image_application_in_kotlin.data.remote.RetrofitClient
 import retrofit2.Call
 
+/**
+ *  Create by TruongIT
+ */
+
 class PhotoRepository {
     private var apiService: ApiService? = null
 

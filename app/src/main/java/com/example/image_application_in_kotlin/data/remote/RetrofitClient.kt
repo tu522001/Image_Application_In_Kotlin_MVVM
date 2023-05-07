@@ -4,6 +4,9 @@ import com.example.image_application_in_kotlin.common.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ *  Create by TruongIT
+ */
 
 class RetrofitClient private constructor() {
 
