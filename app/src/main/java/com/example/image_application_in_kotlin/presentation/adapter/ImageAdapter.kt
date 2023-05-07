@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.image_application_in_kotlin.data.model.DownloadImages
@@ -106,40 +107,47 @@ class ImageAdapter(var context: Context, var listImages: MutableList<Images>) :
             // Khi người dùng nhấp vào một hình ảnh con trong danh sách hình ảnh trên giao diện người dùng.
             itembinding.imgcCoverPhoto.setOnClickListener {
                 // Khi người dùng nhấp vào hình ảnh, phương thức selectItem(adapterPosition) được gọi để đánh dấu mục được chọn trong danh sách hiện tại.
-                selectItem(adapterPosition)
+
                 // Được gọi để thông báo cho trình nghe sự kiện về việc một mục đã được chọn.
-                onItemListener.onClick(adapterPosition, listImages[adapterPosition].url)
+                try {
+                    selectItem(adapterPosition)
+                    if (listImages.size > -1){
+                        onItemListener.onClick(adapterPosition, listImages[adapterPosition].url)
+                        // Nếu hình ảnh chưa được tải xuống và lưu vào thiết bị di động
+                        if (!FileUtil.isFileExisted(image.fileName)) {
+                            Glide.with(context).load(image.url).into(itembinding.imgcCoverPhoto)
 
-                // Nếu hình ảnh chưa được tải xuống và lưu vào thiết bị di động
-                if (!FileUtil.isFileExisted(image.fileName)) {
-                    Glide.with(context).load(image.url).into(itembinding.imgcCoverPhoto)
-
-                    // Sử dụng lớp DownloadManager để tải hình xuống và lưu trữ vào thiết bị di động.
-                    val downloadManager =
-                        context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                    val request = DownloadManager.Request(Uri.parse(image.url))
-                        .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                        .setTitle(image.url)
-                        .setDescription("Đang tải xuống ${image.url}")
-                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        .setDestinationInExternalPublicDir(
-                            Environment.DIRECTORY_PICTURES,
-                            "MyPic/${image.fileName}"
-                        )
-                    itembinding.imageViewProgressbar.visibility = View.VISIBLE
+                            // Sử dụng lớp DownloadManager để tải hình xuống và lưu trữ vào thiết bị di động.
+                            val downloadManager =
+                                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                            val request = DownloadManager.Request(Uri.parse(image.url))
+                                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                                .setTitle(image.url)
+                                .setDescription("Đang tải xuống ${image.url}")
+                                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                                .setDestinationInExternalPublicDir(
+                                    Environment.DIRECTORY_PICTURES,
+                                    "MyPic/${image.fileName}"
+                                )
+                            itembinding.imageViewProgressbar.visibility = View.VISIBLE
 
 
-                    val downloadId = downloadManager.enqueue(request)
-                    listener.onDownloadClick(downloadId)
-                    Log.d("EEE", "downloadId : " + downloadId)
+                            val downloadId = downloadManager.enqueue(request)
+                            listener.onDownloadClick(downloadId)
+                            Log.d("EEE", "downloadId : " + downloadId)
 
-                    // Thêm hình đã tải vào danh sách
-                    val downloadedImage = DownloadImages(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path,
-                        image.url
-                    )
-                    downloadedImages.add(downloadedImage)
+                            // Thêm hình đã tải vào danh sách
+                            val downloadedImage = DownloadImages(
+                                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path,
+                                image.url
+                            )
+                            downloadedImages.add(downloadedImage)
+                        }
+                    }
+                }catch (exception : Exception){
+                    Log.d("Exception", "exception : " + exception.message)
                 }
+
             }
         }
 

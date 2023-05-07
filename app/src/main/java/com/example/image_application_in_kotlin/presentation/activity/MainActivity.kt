@@ -25,7 +25,7 @@ import java.io.File
  *  Create by TruongIT
  */
 
-class MainActivity : AppCompatActivity(), ImageAdapter.OnDownloadClickListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var imageAdapter: ImageAdapter
@@ -143,10 +143,6 @@ class MainActivity : AppCompatActivity(), ImageAdapter.OnDownloadClickListener {
                 }
             }
         }
-    }
-
-    override fun onDownloadClick(downloadId: Long) {
-        TODO("Not yet implemented")
     }
 
     override fun onResume() {
